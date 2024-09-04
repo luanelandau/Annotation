@@ -42,7 +42,8 @@ module load gcccore/11.2.0 cutadapt/3.5 fastqc
 
 #run cutadapt. This script is: trimming the adapters, filtering for reads with quality score more than 20, and minimum lenght of 15bp.
 #These are the usual adaptors of illumina sequencing. Trim-galore can identify the adaptors automatically, which makes it user friendly in case you dont know what you're working with. 
-#The --cores=0 option makes it use the cores defined in the script. But Im not sure it works well with the array option.
+#The --cores=0 option makes it use the cores defined in the script. But it does not work well with the array option, so use it carefully. 
+#Note that cutadapt will overwrite the output files if you forget to change names and rerun it. So pay attention.
 cutadapt -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -n 2 -o trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R1.trimmed.fastq.gz -p trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R2.trimmed.fastq.gz -q 20 --minimum-length 15 ${path}${names[${SLURM_ARRAY_TASK_ID}]}-RNA_R1_001.batch4.fastq.gz ${path}${names[${SLURM_ARRAY_TASK_ID}]}-RNA_R2_001.batch4.fastq.gz
 
 #quality check on your RNA-seq files
