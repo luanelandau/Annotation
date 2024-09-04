@@ -3,4 +3,5 @@ I recently started working on annotating the genome of an Opossum sample we have
 
 Before doing the annotation using RNA-seq data, one needs to trim the RNA, and control for quality. Therefore, this tool called https://github.com/FelixKrueger/TrimGalore uses cutadapt and fastqc to do this, and can easily be installed using conda environments. Therefore, I am currently working on that and will upload the scripts for this here. 
 
-1) cutadapt and fastqc are trimmers for adaptors and quality check, respectively. 
+1) cutadapt and fastqc are trimmers for adaptors and quality check, respectively.
+2) hisat2 is for mapping your RNA reads into the genome. You can use multiple RNA-seq files or you can do it one by one. The manual recommends doing it per tissue. 
