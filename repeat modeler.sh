@@ -18,7 +18,7 @@
 
 ASSEMBLY="ragtag.scaffold.fasta" #the assembly has to be on the same folder
 
-module load gcc/11.2.0 openmpi/4.1.1 repeatmodeler/2.0.4.KRAB #loading the modules necessary
+module load gcc/11.2.0 openmpi/4.1.1 repeatmodeler/2.0.4.KRAB recon/1.08 #loading the modules necessary. I am not sure if recon is necessary, but it worked, so I am not changing this.
 
 BuildDatabase -name Opossum1 $ASSEMBLY
 RepeatModeler -database Opossum1 -threads 16 -LTRStruct
