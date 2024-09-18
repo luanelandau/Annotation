@@ -6,13 +6,13 @@
 #SBATCH --nodes=1
 #SBATCH --mem=400G
 #SBATCH --ntasks-per-node=1
-#SBATCH --job-name="cutadapt_fastqc_Opossum1"
-#SBATCH --output=cutadapt_fastqc_Opossum1.out
-#SBATCH --error=cutadapt_fastqc_Opossum1.err
+#SBATCH --job-name="cutadapt_fastqc_Mouse"
+#SBATCH --output=cutadapt_fastqc_Mouse.out
+#SBATCH --error=cutadapt_fastqc_Mouse.err
 #SBATCH --mail-user=luanejan@buffalo.edu
 #SBATCH --mail-type=ALL
 ##SBATCH --requeue
-#SBATCH --array=0-3 # job array index
+#SBATCH --array=0-4 # job array index
 #Specifies that the job will be requeued after a node failure.
 #The default is that the job will not be requeued.
 
@@ -31,8 +31,11 @@
 #Opos-01-SM-Fem-R
 
 #this will make it read each name from the txt file in array
-names=($(cat jobs_RNAseq.txt))
-path="/projects/academic/omergokc/Luane/Opossum1/Opossum1_RNA/" #path to where your RNA-seq is located
+names=($(cat Mouse1A_prefix.txt))
+path="/projects/academic/omergokc/RNA_archive/species/Mice_samples/CD1/" #path to where your RNA-seq is located
+
+sufix_R1="-RNA_R1_001.batch4.fastq.gz" #This part is the one that is the same for all RNA-files, only to facilitate
+sufix_R2="-RNA_R2_001.batch4.fastq.gz"
 
 #make the directories for your outputs
 mkdir trimmed fastqc
@@ -44,7 +47,7 @@ module load gcccore/11.2.0 cutadapt/3.5 fastqc
 #These are the usual adaptors of illumina sequencing. Trim-galore can identify the adaptors automatically, which makes it user friendly in case you dont know what you're working with. 
 #The --cores=0 option makes it use the cores defined in the script. But it does not work well with the array option, so use it carefully. 
 #Note that cutadapt will overwrite the output files if you forget to change names and rerun it. So pay attention.
-cutadapt -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -n 2 -o trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R1.trimmed.fastq.gz -p trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R2.trimmed.fastq.gz -q 20 --minimum-length 15 ${path}${names[${SLURM_ARRAY_TASK_ID}]}-RNA_R1_001.batch4.fastq.gz ${path}${names[${SLURM_ARRAY_TASK_ID}]}-RNA_R2_001.batch4.fastq.gz
+cutadapt -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -n 2 -o trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R1.trimmed.fastq.gz -p trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R2.trimmed.fastq.gz -q 20 --minimum-length 15 ${path}${names[${SLURM_ARRAY_TASK_ID}]}${sufix_R1} ${path}${names[${SLURM_ARRAY_TASK_ID}]}${sufix_R2}
 
 #quality check on your RNA-seq files
 fastqc trimmed/${names[${SLURM_ARRAY_TASK_ID}]}_RNA_R1.trimmed.fastq.gz -o fastqc/
