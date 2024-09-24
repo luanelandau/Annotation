@@ -1,7 +1,7 @@
 ####This script is to be used in terminal using the paths for the files you want to calculate the TPMs for. 
 #Usage: Rscript Calculate_TPM.R path/to/your/readcounts/file.counts.txt
 #the idea of this script is to input featureCounts files and calculate TPMs in order to 
-#compare across species and tissues.
+#compare across species and tissues. Make sure you have edgeR and limma installed in your R. 
 
 # Load necessary libraries
 library(limma)
